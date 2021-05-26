@@ -1,0 +1,13 @@
+        document.addEventListener('DOMContentLoaded',init);
+        async function init(){
+            let options = {
+                method:'GET',
+                headers:{
+                    "Authorization": "KakaoAK fa6203d89e424f85fa9ad50ffa2050b1"
+                }
+            }
+            let result = await fetch('https://dapi.kakao.com/v2/local/search/address.json?analyze_type=similar&page=1&size=10&query=운중동',options)
+            let json = await result.json();
+
+            console.log(json);
+        }

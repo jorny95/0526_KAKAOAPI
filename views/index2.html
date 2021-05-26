@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>카카오검색</title>
+    <script type="text/javascript">
+
+        document.addEventListener('DOMContentLoaded',init);
+        function init(){
+            const searchBtn = document.querySelector('#searchButton');
+            searchBtn.addEventListener('click',search);
+        }
+
+        async function search(){
+            const searchInput = document.querySelector('#searchInput');
+            const searchList = document.querySelector('#searchList');
+
+            if(searchInput.value.length == 0){
+                alert('검색어를 입력해주세요');
+                searchInput.focus();
+                return false;
+            }
+            
+            let options = {
+                method:'GET',
+                headers:{
+                    "Authorization": "KakaoAK fa6203d89e424f85fa9ad50ffa2050b1"
+                }
+            }
+            let result = await fetch('https://dapi.kakao.com/v2/search/web?sort=accuracy&page=1&size=10&query='+searchInput.value,options)
+            let json = await result.json();
+            
+            json.documents.forEach(v=>{
+                console.log(v.title);
+                const li = document.createElement('li');
+                li.innerHTML = v.title;
+                searchList.appendChild(li);
+            })
+        }
+    </script>
+    
+</head>
+<body>
+    <input type="text" id="searchInput" name="searchInput" size="40" placeholder="검색어를 입력해주세요.">
+    <button id="searchButton">검색</button>
+    <ul id="searchList">
+    </ul>
+</body>
+</html>
